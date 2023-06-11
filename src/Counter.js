@@ -1,41 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Counter() {
-	const [count, setCount] = React.useState(0);
-	const [mount, setMount] = React.useState(true);
-	let ref = useRef(0);
+	const [count, setCount] = useState(0); //const [state, setState] = useState(initialState);
+	const [width, setWidth] = useState(50);
 
-	function componentDidMount() {
+	useEffect(() => {
+		console.log("componentDidMount + componentDidUpdate");
+	});
+
+	useEffect(() => {
 		console.log("componentDidMount");
-	}
+	}, []);
 
-	function componentDidUpdate() {
+	useEffect(() => {
 		console.log("componentDidUpdate");
-	}
+	}, [count]);
 
-	function componentWillUnmount() {
-		console.log("componentWillUnmount");
-	}
-
-	function toggleMount() {
-		setMount(!mount);
-	}
-
-	if (mount) {
-		componentDidMount();
-	} else {
-		componentWillUnmount();
-	}
-
-	function unMount() {
-		setCount(0);
-		setMount(false);
-	}
-
-	function handleClick() {
-		ref.current = ref.current + 1;
-		alert("You clicked " + ref.current + " times!");
-	}
+	const increaseWidth = () => setWidth((previousWidth) => previousWidth + 10);
 
 	return (
 		<>
@@ -45,7 +26,9 @@ export default function Counter() {
 				<button onClick={() => setCount(count - 1)}>-</button>
 			</div>
 			<div>
-				<button onClick={handleClick}>Click me!</button>
+				<button style={{ width }} onClick={increaseWidth}>
+					I grow
+				</button>
 			</div>
 		</>
 	);
